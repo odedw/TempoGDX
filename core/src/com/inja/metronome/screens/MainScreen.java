@@ -62,6 +62,7 @@ public class MainScreen implements Screen, MetronomeDelegate {
           startButton.setText("Stop");
           metronome.start();
         } else {
+          metronome.stop();
           startButton.setText("Start");
         }
 
@@ -85,10 +86,6 @@ public class MainScreen implements Screen, MetronomeDelegate {
 
     stage.act(delta);
     stage.draw();
-
-    if (startButton.isChecked()) {
-      metronome.step();
-    }
   }
 
   @Override

@@ -13,6 +13,8 @@ public class Metronome {
   private long clicks;
   private long lastClicks;
   private long startTime;
+  private Thread thread;
+  private boolean isRunning;
 
   public Metronome(MetronomeDelegate delegate) {
     this.delegate = delegate;
@@ -22,8 +24,28 @@ public class Metronome {
   public void start() {
     startTime = TimeUtils.nanoTime();
     lastClicks = 0;
+    isRunning = true;
+    thread = new Thread(new Runnable() {
+      @Override
+      public void run() {
+        while(isRunning) {
+          step();
+        }
+      }
+    });
+    thread.start();
   }
-  public void step() {
+
+  public void stop() {
+    isRunning = false;
+    try {
+      thread.join(2 * nanoPerClick / 1000000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+  }
+
+  private void step() {
     long timeSinceStart = TimeUtils.timeSinceNanos(startTime);
 
     clicks = timeSinceStart / nanoPerClick;

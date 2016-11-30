@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -12,9 +14,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.inja.metronome.Constants;
+import com.inja.metronome.utilities.Assets;
 import com.inja.metronome.utilities.Metronome;
 import com.inja.metronome.utilities.SkinFactory;
 
@@ -25,16 +29,22 @@ public class MainScreen implements Screen{
   private final FitViewport viewport;
   private final Stage stage;
   private final Metronome metronome;
-  private TextButton startButton;
+  private ImageButton startButton;
   private Slider slider;
   private Label label;
+  SpriteBatch batch;
+  private Texture background = Assets.getTexture("background");
+  private Drawable slower = Assets.getDrawable("slower");
+  private Drawable faster = Assets.getDrawable("faster");
 
-  public MainScreen() {
+  public MainScreen(SpriteBatch batch) {
+    background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
     metronome = new Metronome();
     viewport = new FitViewport(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT);
     viewport.apply();
     stage = new Stage(viewport);
     createLayout();
+    this.batch = batch;
   }
 
   private void createLayout() {
@@ -62,28 +72,26 @@ public class MainScreen implements Screen{
     table.add(slider).width(180).padTop(10).colspan(2);
     table.row();
 
-    final Button slowerButton = new TextButton("-", skin);
+    final ImageButton slowerButton = new ImageButton(skin, "slower");
     slowerButton.addListener(new MetronomeButtonGestureListener(-Constants.BIG_INCREMENT, -1));
-    table.add(slowerButton).width(80).height(40).padTop(10);
-    Button fasterButton = new TextButton("+", skin);
+    table.add(slowerButton).width(70).height(60).padTop(10);
+    ImageButton fasterButton = new ImageButton(skin, "faster");
     fasterButton.addListener(new MetronomeButtonGestureListener(Constants.BIG_INCREMENT, 1));
-    table.add(fasterButton).width(80).height(40).padTop(10);
+    table.add(fasterButton).width(70).height(60).padTop(10);
     table.row();
 
-    startButton = new TextButton("Start", skin, "toggle");
+    startButton = new ImageButton(skin, "play");
     startButton.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
         if (startButton.isChecked()) {
-          startButton.setText("Stop");
           metronome.start();
         } else {
           metronome.stop();
-          startButton.setText("Start");
         }
       }
     });
-    table.add(startButton).width(170).height(40).padTop(20).colspan(2);
+    table.add(startButton).width(160).height(70).padTop(20).colspan(2);
     table.row();
 
 //    table.setDebug(true);
@@ -104,9 +112,11 @@ public class MainScreen implements Screen{
 
   @Override
   public void render(float delta) {
-    Gdx.gl.glClearColor(0, 0, 0, 1);
+    Gdx.gl.glClearColor(0,0,0, 1);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+    batch.begin();
+    batch.draw(background, 0, 0, viewport.getScreenWidth(), viewport.getScreenHeight());
+    batch.end();
     stage.act(delta);
     stage.draw();
   }
@@ -147,6 +157,7 @@ public class MainScreen implements Screen{
     }
 
     public boolean longPress (Actor actor, float x, float y) {
+      Gdx.input.vibrate(10);
       setBpm(metronome.getBpm() + bigIncrement);
       return true;
     }

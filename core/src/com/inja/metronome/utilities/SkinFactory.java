@@ -13,12 +13,16 @@ public class SkinFactory {
   public static Skin create() {
     Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-    FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("PTM55FT.ttf"));
+    FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("DroidSansMono.ttf"));
     FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-    parameter.size = 45;
+    parameter.size = 40;
     Label.LabelStyle labelStyle = new Label.LabelStyle();
     labelStyle.font = generator.generateFont(parameter);
     skin.add("default", labelStyle, Label.LabelStyle.class);
+    labelStyle = new Label.LabelStyle();
+    parameter.size = 20;
+    labelStyle.font = generator.generateFont(parameter);
+    skin.add("small", labelStyle, Label.LabelStyle.class);
     generator.dispose();
 
     ImageButton.ImageButtonStyle imageButtonStyle = new ImageButton.ImageButtonStyle(skin.get(ImageButton.ImageButtonStyle.class));

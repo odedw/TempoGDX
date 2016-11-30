@@ -2,7 +2,6 @@ package com.inja.metronome.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -11,14 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.inja.metronome.Constants;
 import com.inja.metronome.utilities.Assets;
+import com.inja.metronome.utilities.BpmNameConverter;
 import com.inja.metronome.utilities.Metronome;
 import com.inja.metronome.utilities.SkinFactory;
 
@@ -29,13 +26,15 @@ public class MainScreen implements Screen{
   private final FitViewport viewport;
   private final Stage stage;
   private final Metronome metronome;
+  private final Skin skin;
   private ImageButton startButton;
   private Slider slider;
-  private Label label;
+  private Label bpmLabel;
   SpriteBatch batch;
   private Texture background = Assets.getTexture("background");
   private Drawable slower = Assets.getDrawable("slower");
   private Drawable faster = Assets.getDrawable("faster");
+  private Label bpmNameLabel;
 
   public MainScreen(SpriteBatch batch) {
     background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
@@ -43,12 +42,13 @@ public class MainScreen implements Screen{
     viewport = new FitViewport(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT);
     viewport.apply();
     stage = new Stage(viewport);
+    skin = SkinFactory.create();
+
     createLayout();
     this.batch = batch;
   }
 
   private void createLayout() {
-    Skin skin = SkinFactory.create();
 
     Table table = new Table(skin);
     stage.addActor(table);
@@ -56,8 +56,14 @@ public class MainScreen implements Screen{
     table.align(Align.center | Align.top);
     table.padTop(60);
 
-    label = new Label(Integer.toString(metronome.getBpm()), skin);
-    table.add(label).top().colspan(2);
+    Table bpmTable = new Table();
+    bpmTable.background(skin.getDrawable("list"));
+    bpmLabel = new Label(Integer.toString(metronome.getBpm()), skin);
+    bpmTable.add(bpmLabel);
+    bpmTable.row();
+    bpmNameLabel = new Label(BpmNameConverter.getName(metronome.getBpm()), skin, "small");
+    bpmTable.add(bpmNameLabel).padTop(10);
+    table.add(bpmTable).colspan(2).width(180).height(120);
     table.row();
 
     slider = new Slider(Constants.MIN_BPM, Constants.MAX_BPM, 1, false, skin);
@@ -74,10 +80,10 @@ public class MainScreen implements Screen{
 
     final ImageButton slowerButton = new ImageButton(skin, "slower");
     slowerButton.addListener(new MetronomeButtonGestureListener(-Constants.BIG_INCREMENT, -1));
-    table.add(slowerButton).width(70).height(60).padTop(10);
+    table.add(slowerButton).width(80).height(60).padTop(10).padRight(10);
     ImageButton fasterButton = new ImageButton(skin, "faster");
     fasterButton.addListener(new MetronomeButtonGestureListener(Constants.BIG_INCREMENT, 1));
-    table.add(fasterButton).width(70).height(60).padTop(10);
+    table.add(fasterButton).width(80).height(60).padTop(10).padLeft(10);
     table.row();
 
     startButton = new ImageButton(skin, "play");
@@ -91,8 +97,11 @@ public class MainScreen implements Screen{
         }
       }
     });
-    table.add(startButton).width(160).height(70).padTop(20).colspan(2);
+    table.add(startButton).width(180).height(70).padTop(20).colspan(2);
     table.row();
+
+
+
 
 //    table.setDebug(true);
   }
@@ -101,7 +110,8 @@ public class MainScreen implements Screen{
     value = MathUtils.clamp(value, Constants.MIN_BPM, Constants.MAX_BPM);
     metronome.setBpm(value);
     slider.setValue(value);
-    label.setText(Integer.toString(metronome.getBpm()));
+    bpmLabel.setText(Integer.toString(metronome.getBpm()));
+    bpmNameLabel.setText(BpmNameConverter.getName(metronome.getBpm()));
   }
 
 
@@ -116,6 +126,9 @@ public class MainScreen implements Screen{
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     batch.begin();
     batch.draw(background, 0, 0, viewport.getScreenWidth(), viewport.getScreenHeight());
+//    Vector2 pos = viewport.project(new Vector2(Constants.WORLD_WIDTH / 2 - 90, Constants.WORLD_HEIGHT - 220));
+//    Vector2 size = viewport.project(new Vector2(180, 180));
+//    skin.getDrawable("list").draw(batch, pos.x, pos.y, size.x, size.y);
     batch.end();
     stage.act(delta);
     stage.draw();

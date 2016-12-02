@@ -2,6 +2,8 @@ package com.inja.metronome.utilities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.utils.TimeUtils;
 
 /**
@@ -14,7 +16,7 @@ public class Metronome {
   private long startTime;
   private Thread thread;
   private boolean isRunning;
-  private Sound beatSound = Gdx.audio.newSound(Gdx.files.internal("click.ogg"));
+  private EventListener listener;
 
   public Metronome() {
     setBpm(120);
@@ -47,14 +49,17 @@ public class Metronome {
     long timeSinceStart = TimeUtils.timeSinceNanos(startTime);
 
     long clicks = timeSinceStart / nanoPerClick;
+
     if (clicks > lastClicks) {
-      beat();
       lastClicks = clicks;
+      beat();
     }
   }
 
   private void beat() {
-    beatSound.play();
+    if (listener != null) {
+      listener.handle(new BeatEvent());
+    }
   }
 
   public void setBpm(int val) {
@@ -69,4 +74,12 @@ public class Metronome {
   }
 
   public int getBpm() {return bpm;}
+
+  public void setListener(EventListener listener) {
+    this.listener = listener;
+  }
+
+  public class BeatEvent extends Event {
+
+  }
 }

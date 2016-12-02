@@ -33,8 +33,6 @@ public class MainScreen implements Screen, EventListener {
   private Texture background = Assets.getTexture("background");
   private Label bpmNameLabel;
   private Array<Image> beatIndicators = new Array<>();
-  private Drawable beatOffImage;
-  private Drawable beatOnImage;
   private int currentBeatIndicator = -1;
   private long silenceLoopId;
 
@@ -53,6 +51,8 @@ public class MainScreen implements Screen, EventListener {
   }
 
   private void createLayout() {
+    float uiWidth = 220;
+
 
     Table table = new Table(skin);
     stage.addActor(table);
@@ -67,7 +67,7 @@ public class MainScreen implements Screen, EventListener {
     bpmTable.row();
     bpmNameLabel = new Label(BpmNameConverter.getName(metronome.getBpm()), skin, "small");
     bpmTable.add(bpmNameLabel).padTop(10);
-    table.add(bpmTable).colspan(4).width(180).height(120);
+    table.add(bpmTable).colspan(4).width(uiWidth).height(120);
     table.row();
 
     slider = new Slider(Constants.MIN_BPM, Constants.MAX_BPM, 1, false, skin);
@@ -79,15 +79,15 @@ public class MainScreen implements Screen, EventListener {
         setBpm((int) slider.getValue());
       }
     });
-    table.add(slider).width(180).padTop(10).colspan(4);
+    table.add(slider).width(uiWidth).padTop(10).colspan(4);
     table.row();
 
     final ImageButton slowerButton = new ImageButton(skin, "slower");
     slowerButton.addListener(new MetronomeButtonGestureListener(-Constants.BIG_INCREMENT, -1));
-    table.add(slowerButton).width(80).height(60).padTop(10).padRight(10).colspan(2);
+    table.add(slowerButton).width((uiWidth - 20) / 2).height(60).padTop(10).padRight(10).colspan(2);
     ImageButton fasterButton = new ImageButton(skin, "faster");
     fasterButton.addListener(new MetronomeButtonGestureListener(Constants.BIG_INCREMENT, 1));
-    table.add(fasterButton).width(80).height(60).padTop(10).padLeft(10).colspan(2);
+    table.add(fasterButton).width((uiWidth - 20) / 2).height(60).padTop(10).padLeft(10).colspan(2);
     table.row();
 
     startButton = new ImageButton(skin, "play");
@@ -97,21 +97,18 @@ public class MainScreen implements Screen, EventListener {
         toggleMetronome();
       }
     });
-    table.add(startButton).width(180).height(70).padTop(20).colspan(4);
+    table.add(startButton).width(uiWidth).height(70).padTop(20).colspan(4);
     table.row();
 
     Table indicatorTable = new Table();
     indicatorTable.background(skin.getDrawable("list"));
-    beatOffImage = skin.getDrawable("radio-button-off");
-    beatOnImage = skin.getDrawable("radio-button");
     for (int i = 0; i < 4; i++) {
-      Image image = new Image(beatOffImage);
+      Image image = new Image(Assets.getDrawable("beatOff"));
       beatIndicators.add(image);
-      indicatorTable.add(image).pad(0, 15, 0, 15).width(15);
+      indicatorTable.add(image).pad(0, 15, 0, 15).width(20).height(20);
     }
 //  indicatorTable.setDebug(true);
-    table.add(indicatorTable).colspan(4).width(180).padTop(20).height(50);
-
+    table.add(indicatorTable).colspan(4).width(uiWidth).padTop(20).height(50);
     table.row();
 
 //    table.setDebug(true);
@@ -121,7 +118,7 @@ public class MainScreen implements Screen, EventListener {
     if (startButton.isChecked()) {
       metronome.start();
     } else {
-      beatIndicators.get(currentBeatIndicator).setDrawable(beatOffImage);
+      beatIndicators.get(currentBeatIndicator).setDrawable(Assets.getDrawable("beatOff"));
       currentBeatIndicator = -1;
       metronome.stop();
     }
@@ -181,12 +178,12 @@ public class MainScreen implements Screen, EventListener {
   @Override
   public boolean handle(Event event) {
     if (currentBeatIndicator >= 0 && currentBeatIndicator < beatIndicators.size)
-      beatIndicators.get(currentBeatIndicator).setDrawable(beatOffImage);
+      beatIndicators.get(currentBeatIndicator).setDrawable(Assets.getDrawable("beatOff"));
 
     currentBeatIndicator++;
     if (currentBeatIndicator == beatIndicators.size) currentBeatIndicator = 0;
     Assets.getSound(currentBeatIndicator == 0 ? "clickFirst" : "click").play();
-    beatIndicators.get(currentBeatIndicator).setDrawable(beatOnImage);
+    beatIndicators.get(currentBeatIndicator).setDrawable(Assets.getDrawable("beatOn"));
 
     return true;
   }

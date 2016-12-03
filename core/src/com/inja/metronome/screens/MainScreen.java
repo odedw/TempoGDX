@@ -55,7 +55,7 @@ public class MainScreen implements Screen, EventListener {
     stage.addActor(table);
     table.align(Align.center | Align.top);
     table.padTop(60);
-    table.setWidth(220);
+    table.setWidth(240);
     table.setHeight(stage.getHeight());
     table.setX(stage.getWidth() / 2 - table.getWidth() / 2);
 
@@ -78,15 +78,15 @@ public class MainScreen implements Screen, EventListener {
         setBpm((int) slider.getValue());
       }
     });
-    table.add(slider).padTop(10).colspan(2).fillX().expandX();
+    table.add(slider).padTop(15).colspan(2).fillX().expandX();
     table.row();
 
     final ImageButton slowerButton = new ImageButton(skin, "slower");
     slowerButton.addListener(new MetronomeButtonGestureListener(-Constants.BIG_INCREMENT, -1));
-    table.add(slowerButton).height(60).padTop(10).padRight(10).width((table.getWidth() - 20)/ 2);
+    table.add(slowerButton).height(60).padTop(15).padRight(10).width((table.getWidth() - 20)/ 2);
     ImageButton fasterButton = new ImageButton(skin, "faster");
     fasterButton.addListener(new MetronomeButtonGestureListener(Constants.BIG_INCREMENT, 1));
-    table.add(fasterButton).height(60).padTop(10).padLeft(10).width((table.getWidth() - 20)/ 2);
+    table.add(fasterButton).height(60).padTop(15).padLeft(10).width((table.getWidth() - 20)/ 2);
     table.row();
 
     startButton = new ImageButton(skin, "play");

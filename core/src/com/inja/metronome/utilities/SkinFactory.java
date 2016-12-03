@@ -26,18 +26,18 @@ public class SkinFactory {
     generator.dispose();
 
     ImageButton.ImageButtonStyle imageButtonStyle = new ImageButton.ImageButtonStyle(skin.get(ImageButton.ImageButtonStyle.class));
-    imageButtonStyle.imageUp = Assets.getDrawable("slower", new Color(0.8f, 0.8f, 0.8f, 1));
-    imageButtonStyle.imageOver = Assets.getDrawable("slower", new Color(1f, 1f, 1f, 1));
+    imageButtonStyle.imageOver = Assets.getDrawable("slower", new Color(0.8f, 0.8f, 0.8f, 1));
+    imageButtonStyle.imageUp  = Assets.getDrawable("slower", new Color(1f, 1f, 1f, 1));
     skin.add("slower", imageButtonStyle);
     imageButtonStyle = new ImageButton.ImageButtonStyle(skin.get(Button.ButtonStyle.class));
-    imageButtonStyle.imageUp = Assets.getDrawable("faster", new Color(0.8f, 0.8f, 0.8f, 1));
-    imageButtonStyle.imageOver = Assets.getDrawable("faster", new Color(1f, 1f, 1f, 1));
+    imageButtonStyle.imageOver = Assets.getDrawable("faster", new Color(0.8f, 0.8f, 0.8f, 1));
+    imageButtonStyle.imageUp = Assets.getDrawable("faster", new Color(1f, 1f, 1f, 1));
     skin.add("faster", imageButtonStyle);
     imageButtonStyle = new ImageButton.ImageButtonStyle(skin.get(Button.ButtonStyle.class));
-    imageButtonStyle.imageUp = Assets.getDrawable("play", new Color(0.8f, 0.8f, 0.8f, 1f));
-    imageButtonStyle.imageOver = Assets.getDrawable("play", new Color(1f, 1f, 1f, 1f));
-    imageButtonStyle.imageChecked = Assets.getDrawable("pause", new Color(0.8f, 0.8f, 0.8f, 1f));
-    imageButtonStyle.imageCheckedOver = Assets.getDrawable("pause", new Color(1f,1f, 1f, 1));
+    imageButtonStyle.imageOver = Assets.getDrawable("play", new Color(0.8f, 0.8f, 0.8f, 1f));
+    imageButtonStyle.imageUp = Assets.getDrawable("play", new Color(1f, 1f, 1f, 1f));
+    imageButtonStyle.imageCheckedOver = Assets.getDrawable("pause", new Color(0.8f, 0.8f, 0.8f, 1f));
+    imageButtonStyle.imageChecked = Assets.getDrawable("pause", new Color(1f,1f, 1f, 1));
 
     skin.add("play", imageButtonStyle);
     return skin;

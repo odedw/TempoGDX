@@ -117,7 +117,9 @@ public class MainScreen implements Screen, EventListener {
     if (startButton.isChecked()) {
       metronome.start();
     } else {
-      beatIndicators.get(currentBeatIndicator).setDrawable(Assets.getDrawable("beatOff"));
+      if (currentBeatIndicator >= 0 && currentBeatIndicator < beatIndicators.size) {
+        beatIndicators.get(currentBeatIndicator).setDrawable(Assets.getDrawable("beatOff"));
+      }
       currentBeatIndicator = -1;
       metronome.stop();
     }

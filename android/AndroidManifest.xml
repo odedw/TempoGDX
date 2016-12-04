@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.inja.metronome"
+    package="com.inja.tempogdx"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -12,8 +12,8 @@
         android:label="@string/app_name"
         android:theme="@style/GdxTheme" >
         <activity
-            android:name="com.inja.metronome.AndroidLauncher"
-            android:label="@string/app_name" 
+            android:name="com.inja.tempogdx.AndroidLauncher"
+            android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize">
             <intent-filter>

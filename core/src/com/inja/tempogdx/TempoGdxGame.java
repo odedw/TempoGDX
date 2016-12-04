@@ -1,12 +1,12 @@
-package com.inja.metronome;
+package com.inja.tempogdx;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.inja.metronome.screens.MainScreen;
-import com.inja.metronome.utilities.Assets;
+import com.inja.tempogdx.screens.MainScreen;
+import com.inja.tempogdx.utilities.Assets;
 
-public class MetronomeGame extends Game {
+public class TempoGdxGame extends Game {
 	SpriteBatch batch;
 
 	@Override

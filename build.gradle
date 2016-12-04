@@ -15,7 +15,7 @@ allprojects {
 
     version = '1.0'
     ext {
-        appName = "libgdx-metronome"
+        appName = "TempoGDX"
         gdxVersion = '1.9.4'
         roboVMVersion = '2.2.0'
         box2DLightsVersion = '1.4'

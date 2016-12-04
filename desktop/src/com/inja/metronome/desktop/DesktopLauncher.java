@@ -1,8 +1,8 @@
-package com.inja.metronome.desktop;
+package com.inja.tempogdx.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.inja.metronome.MetronomeGame;
+import com.inja.tempogdx.TempoGdxGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
@@ -10,6 +10,6 @@ public class DesktopLauncher {
         config.height = 1280;
         config.width = 720;
         config.samples = 8;
-		new LwjglApplication(new MetronomeGame(), config);
+		new LwjglApplication(new TempoGdxGame(), config);
 	}
 }

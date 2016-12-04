@@ -1,4 +1,4 @@
-package com.inja.metronome.screens;
+package com.inja.tempogdx.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -12,11 +12,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.inja.metronome.Constants;
-import com.inja.metronome.utilities.Assets;
-import com.inja.metronome.utilities.BpmNameConverter;
-import com.inja.metronome.utilities.Metronome;
-import com.inja.metronome.utilities.SkinFactory;
+import com.inja.tempogdx.Constants;
+import com.inja.tempogdx.utilities.Assets;
+import com.inja.tempogdx.utilities.BpmNameConverter;
+import com.inja.tempogdx.utilities.Metronome;
+import com.inja.tempogdx.utilities.SkinFactory;
 
 /**
  * Created by oded on 26/11/2016.

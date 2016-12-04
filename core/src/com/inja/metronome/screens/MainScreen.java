@@ -41,7 +41,7 @@ public class MainScreen implements Screen, EventListener {
     background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
     metronome = new Metronome();
     metronome.setListener(this);
-    viewport = new FitViewport(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT);
+    viewport = new FitViewport(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
     viewport.apply();
     stage = new Stage(viewport);
     skin = SkinFactory.create();

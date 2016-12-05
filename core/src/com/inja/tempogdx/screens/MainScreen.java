@@ -2,16 +2,12 @@ package com.inja.tempogdx.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.inja.tempogdx.Constants;
 import com.inja.tempogdx.utilities.Assets;
 import com.inja.tempogdx.utilities.BpmNameConverter;
@@ -22,42 +18,39 @@ import com.inja.tempogdx.utilities.SkinFactory;
  * Created by oded on 26/11/2016.
  */
 public class MainScreen implements Screen, EventListener {
-  private final FitViewport viewport;
   private final Stage stage;
   private final Metronome metronome;
   private final Skin skin;
   private ImageButton startButton;
   private Slider slider;
   private Label bpmLabel;
-  private SpriteBatch batch;
-  private Texture background = Assets.getTexture("background");
   private Label bpmNameLabel;
   private Array<Image> beatIndicators = new Array<>();
   private int currentBeatIndicator = -1;
   private long silenceLoopId;
+  private MainScreenDelegate delegate;
 
 
-  public MainScreen(SpriteBatch batch) {
-    background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+  public MainScreen(Viewport viewport, MainScreenDelegate delegate) {
+    this.delegate = delegate;
     metronome = new Metronome();
     metronome.setListener(this);
-    viewport = new FitViewport(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
-    viewport.apply();
+
     stage = new Stage(viewport);
     skin = SkinFactory.create();
 
     createLayout();
-    this.batch = batch;
   }
 
   private void createLayout() {
     int buttonHeight = skin.get("button-height", Integer.class);
     int margin = skin.get("margin", Integer.class);
+    int stageWidth = skin.get("stage-width", Integer.class);
 
     Table table = new Table(skin);
     stage.addActor(table);
     table.center();
-    table.setWidth(240);
+    table.setWidth(stageWidth);
     table.setHeight(stage.getHeight());
     table.setX(stage.getWidth() / 2 - table.getWidth() / 2);
 
@@ -117,12 +110,18 @@ public class MainScreen implements Screen, EventListener {
     table.row();
 
 //    table.setDebug(true);
-    ImageButton info = new ImageButton(skin, "info");
-    info.setWidth(20);
-    info.setHeight(20);
-    info.setX(stage.getWidth() - margin - info.getWidth());
-    info.setY(stage.getHeight() - margin - info.getHeight());
-    stage.addActor(info);
+    ImageButton infoButton = new ImageButton(skin, "info");
+    infoButton.setWidth(20);
+    infoButton.setHeight(20);
+    infoButton.setX(stage.getWidth() - margin - infoButton.getWidth());
+    infoButton.setY(stage.getHeight() - margin - infoButton.getHeight());
+    infoButton.addListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+        delegate.infoClicked();
+      }
+    });
+    stage.addActor(infoButton);
   }
 
   private void toggleMetronome() {
@@ -154,18 +153,14 @@ public class MainScreen implements Screen, EventListener {
 
   @Override
   public void render(float delta) {
-    Gdx.gl.glClearColor(0,0,0, 1);
-    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-    batch.begin();
-    batch.draw(background, 0, 0, viewport.getScreenWidth(), viewport.getScreenHeight());
-    batch.end();
+
     stage.act(delta);
     stage.draw();
   }
 
   @Override
   public void resize(int width, int height) {
-    viewport.update(width,height);
+
   }
 
   @Override
@@ -220,5 +215,9 @@ public class MainScreen implements Screen, EventListener {
     public void tap (InputEvent event, float x, float y, int count, int button) {
       setBpm(metronome.getBpm() + smallIncrement);
     }
+  }
+
+  public interface MainScreenDelegate{
+    void infoClicked();
   }
 }

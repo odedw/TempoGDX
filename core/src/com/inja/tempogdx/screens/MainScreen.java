@@ -56,7 +56,7 @@ public class MainScreen implements Screen, EventListener {
 
     Table bpmTable = new Table();
     bpmTable.background(skin.getDrawable("list"));
-    bpmLabel = new Label(Integer.toString(metronome.getBpm()), skin);
+    bpmLabel = new Label(Integer.toString(metronome.getBpm()), skin, "big");
     bpmTable.add(bpmLabel).height(20).padTop(margin);
     bpmTable.row();
     bpmNameLabel = new Label(BpmNameConverter.getName(metronome.getBpm()), skin, "small");
@@ -153,7 +153,6 @@ public class MainScreen implements Screen, EventListener {
 
   @Override
   public void render(float delta) {
-
     stage.act(delta);
     stage.draw();
   }

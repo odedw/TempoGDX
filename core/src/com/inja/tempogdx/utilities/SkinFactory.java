@@ -23,11 +23,20 @@ public class SkinFactory {
       parameter.size = 50;
       Label.LabelStyle labelStyle = new Label.LabelStyle();
       labelStyle.font = generator.generateFont(parameter);
-      skin.add("default", labelStyle, Label.LabelStyle.class);
+      skin.add("big", labelStyle, Label.LabelStyle.class);
       labelStyle = new Label.LabelStyle();
       parameter.size = 30;
       labelStyle.font = generator.generateFont(parameter);
       skin.add("small", labelStyle, Label.LabelStyle.class);
+      labelStyle = new Label.LabelStyle();
+      parameter.size = 14;
+      labelStyle.font = generator.generateFont(parameter);
+      skin.add("default", labelStyle, Label.LabelStyle.class);
+      labelStyle = new Label.LabelStyle();
+      parameter.size = 14;
+      labelStyle.font = generator.generateFont(parameter);
+      labelStyle.fontColor = Color.valueOf("4cb4e8");
+      skin.add("link", labelStyle, Label.LabelStyle.class);
       generator.dispose();
 
       ImageButton.ImageButtonStyle imageButtonStyle = new ImageButton.ImageButtonStyle(skin.get(ImageButton.ImageButtonStyle.class));
@@ -52,6 +61,9 @@ public class SkinFactory {
       imageButtonStyle.down = Assets.getDrawable("info", new Color(0.8f, 0.8f, 0.8f, 1));
       imageButtonStyle.up = Assets.getDrawable("info", new Color(1f, 1f, 1f, 1));
       skin.add("info", imageButtonStyle);
+
+      TextButton.TextButtonStyle textButtonStyle = skin.get(TextButton.TextButtonStyle.class);
+      textButtonStyle.font = skin.get(Label.LabelStyle.class).font;
 
       skin.add("button-height", 60);
       skin.add("margin", 15);

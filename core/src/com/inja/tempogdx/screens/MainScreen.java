@@ -140,14 +140,22 @@ public class MainScreen implements Screen, EventListener {
 
   private void toggleMetronome() {
     if (startButton.isChecked()) {
-      metronome.start();
+      startMetronome();
     } else {
-      if (currentBeatIndicator >= 0 && currentBeatIndicator < beatIndicators.size) {
-        beatIndicators.get(currentBeatIndicator).setDrawable(Assets.getDrawable("beatOff"));
-      }
-      currentBeatIndicator = -1;
-      metronome.stop();
+      stopMetronome();
     }
+  }
+
+  private void startMetronome() {
+    metronome.start();
+  }
+
+  private void stopMetronome() {
+    if (currentBeatIndicator >= 0 && currentBeatIndicator < beatIndicators.size) {
+      beatIndicators.get(currentBeatIndicator).setDrawable(Assets.getDrawable("beatOff"));
+    }
+    currentBeatIndicator = -1;
+    metronome.stop();
   }
 
   private void setBpm(int value) {
@@ -184,7 +192,7 @@ public class MainScreen implements Screen, EventListener {
 
   @Override
   public void pause() {
-
+    stopMetronome();
   }
 
   @Override

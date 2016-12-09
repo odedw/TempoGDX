@@ -71,7 +71,7 @@ public class InfoScreen implements Screen {
       @Override
       public void clicked(InputEvent event, float x, float y) {
         table.addAction(Actions.sequence(
-                Actions.moveBy(stage.getWidth(), 0, 0.3f, Interpolation.exp5In),
+                Actions.moveBy(stage.getWidth(), 0, 0.2f, Interpolation.exp5In),
                 new Action() {
                   @Override
                   public boolean act(float delta) {
@@ -91,7 +91,7 @@ public class InfoScreen implements Screen {
   @Override
   public void show() {
     Gdx.input.setInputProcessor(stage);
-    table.addAction(Actions.moveBy(-stage.getWidth(), 0, 0.3f, Interpolation.exp5Out));
+    table.addAction(Actions.moveBy(-stage.getWidth(), 0, 0.2f, Interpolation.exp5Out));
   }
 
   @Override

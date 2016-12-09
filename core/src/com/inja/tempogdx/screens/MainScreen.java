@@ -121,9 +121,9 @@ public class MainScreen implements Screen, EventListener {
     infoButton.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
-        infoButton.addAction(Actions.moveBy(0, margin + infoButton.getHeight(), 0.3f, Interpolation.exp5In));
+        infoButton.addAction(Actions.moveBy(0, margin + infoButton.getHeight(), 0.2f, Interpolation.exp5In));
         table.addAction(Actions.sequence(
-                Actions.moveBy(-stage.getWidth(), 0, 0.3f, Interpolation.exp5In),
+                Actions.moveBy(-stage.getWidth(), 0, 0.2f, Interpolation.exp5In),
                 new Action() {
                   @Override
                   public boolean act(float delta) {
@@ -175,7 +175,7 @@ public class MainScreen implements Screen, EventListener {
       return;
     }
 
-    table.addAction(Actions.moveBy(stage.getWidth(), 0, 0.3f, Interpolation.exp5Out));
+    table.addAction(Actions.moveBy(stage.getWidth(), 0, 0.2f, Interpolation.exp5Out));
     infoButton.addAction(Actions.moveBy(0, -(margin + infoButton.getHeight()), 0.3f, Interpolation.exp5Out));
   }
 

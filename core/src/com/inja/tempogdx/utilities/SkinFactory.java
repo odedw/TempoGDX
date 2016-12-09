@@ -67,7 +67,7 @@ public class SkinFactory {
 
       skin.add("button-height", 60);
       skin.add("margin", 15);
-      skin.add("stage-width", 240);
+      skin.add("ui-width", 240);
     }
 
     return skin;

@@ -2,8 +2,11 @@ package com.inja.tempogdx.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -21,6 +24,7 @@ public class InfoScreen implements Screen {
   private Skin skin;
   private Stage stage;
   private InfoScreenDelegate delegate;
+  private Table table;
 
   public InfoScreen(Viewport viewport, InfoScreenDelegate delegate) {
     stage = new Stage(viewport);
@@ -33,12 +37,12 @@ public class InfoScreen implements Screen {
   private void createLayout() {
     int buttonHeight = skin.get("button-height", Integer.class);
     int margin = skin.get("margin", Integer.class);
-    int stageWidth = skin.get("stage-width", Integer.class);
+    int uiWidth = skin.get("ui-width", Integer.class);
 
-    Table table = new Table(skin);
+    table = new Table(skin);
     stage.addActor(table);
     table.center();
-    table.setWidth(stageWidth);
+    table.setWidth(uiWidth);
     table.setHeight(stage.getHeight());
     table.setX(stage.getWidth() / 2 - table.getWidth() / 2);
 
@@ -65,16 +69,28 @@ public class InfoScreen implements Screen {
     backButton.addListener(new ClickListener(){
       @Override
       public void clicked(InputEvent event, float x, float y) {
-        delegate.backClicked();
+        table.addAction(Actions.sequence(
+                Actions.moveBy(stage.getWidth(), 0, 0.3f, Interpolation.exp5In),
+                new Action() {
+                  @Override
+                  public boolean act(float delta) {
+                    delegate.backClicked();
+                    return true;
+                  }
+                }
+
+        ));
       }
     });
     table.add(backButton).height(buttonHeight).expandX().fillX().padTop(margin);
+    table.moveBy(stage.getWidth(), 0);
 
   }
 
   @Override
   public void show() {
     Gdx.input.setInputProcessor(stage);
+    table.addAction(Actions.moveBy(-stage.getWidth(), 0, 0.3f, Interpolation.exp5Out));
   }
 
   @Override

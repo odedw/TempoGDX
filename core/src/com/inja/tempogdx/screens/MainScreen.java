@@ -2,8 +2,10 @@ package com.inja.tempogdx.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.badlogic.gdx.utils.Array;
@@ -27,8 +29,11 @@ public class MainScreen implements Screen, EventListener {
   private Label bpmNameLabel;
   private Array<Image> beatIndicators = new Array<>();
   private int currentBeatIndicator = -1;
-  private long silenceLoopId;
   private MainScreenDelegate delegate;
+  private Table table;
+  private boolean firstShow = true;
+  private ImageButton infoButton;
+  private Integer margin;
 
 
   public MainScreen(Viewport viewport, MainScreenDelegate delegate) {
@@ -44,13 +49,13 @@ public class MainScreen implements Screen, EventListener {
 
   private void createLayout() {
     int buttonHeight = skin.get("button-height", Integer.class);
-    int margin = skin.get("margin", Integer.class);
-    int stageWidth = skin.get("stage-width", Integer.class);
+    margin = skin.get("margin", Integer.class);
+    final int uiWidth = skin.get("ui-width", Integer.class);
 
-    Table table = new Table(skin);
+    table = new Table(skin);
     stage.addActor(table);
     table.center();
-    table.setWidth(stageWidth);
+    table.setWidth(uiWidth);
     table.setHeight(stage.getHeight());
     table.setX(stage.getWidth() / 2 - table.getWidth() / 2);
 
@@ -105,12 +110,10 @@ public class MainScreen implements Screen, EventListener {
       beatIndicators.add(image);
       indicatorTable.add(image).pad(0, margin, 0, margin).width(20).height(20);
     }
-//  indicatorTable.setDebug(true);
     table.add(indicatorTable).colspan(2).padTop(20).height(50).fillX().expandX();
     table.row();
 
-//    table.setDebug(true);
-    ImageButton infoButton = new ImageButton(skin, "info");
+    infoButton = new ImageButton(skin, "info");
     infoButton.setWidth(20);
     infoButton.setHeight(20);
     infoButton.setX(stage.getWidth() - margin - infoButton.getWidth());
@@ -118,7 +121,18 @@ public class MainScreen implements Screen, EventListener {
     infoButton.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
-        delegate.infoClicked();
+        infoButton.addAction(Actions.moveBy(0, margin + infoButton.getHeight(), 0.3f, Interpolation.exp5In));
+        table.addAction(Actions.sequence(
+                Actions.moveBy(-stage.getWidth(), 0, 0.3f, Interpolation.exp5In),
+                new Action() {
+                  @Override
+                  public boolean act(float delta) {
+                    delegate.infoClicked();
+                    return true;
+                  }
+                }
+
+        ));
       }
     });
     stage.addActor(infoButton);
@@ -148,7 +162,13 @@ public class MainScreen implements Screen, EventListener {
   @Override
   public void show() {
     Gdx.input.setInputProcessor(stage);
-    silenceLoopId = Assets.getSound("silence").loop();
+    if (firstShow) {
+      firstShow = false;
+      return;
+    }
+
+    table.addAction(Actions.moveBy(stage.getWidth(), 0, 0.3f, Interpolation.exp5Out));
+    infoButton.addAction(Actions.moveBy(0, -(margin + infoButton.getHeight()), 0.3f, Interpolation.exp5Out));
   }
 
   @Override
@@ -174,7 +194,7 @@ public class MainScreen implements Screen, EventListener {
 
   @Override
   public void hide() {
-    Assets.getSound("silence").stop(silenceLoopId);
+
   }
 
   @Override

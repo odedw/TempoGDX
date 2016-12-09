@@ -16,6 +16,7 @@ public class TempoGdxGame extends Game implements MainScreen.MainScreenDelegate,
   private FitViewport viewport;
   private MainScreen mainScreen;
   private InfoScreen infoScreen;
+  private long silenceLoopId;
 
   @Override
 
@@ -29,6 +30,7 @@ public class TempoGdxGame extends Game implements MainScreen.MainScreenDelegate,
     viewport.apply();
     mainScreen = new MainScreen(viewport, this);
     infoScreen = new InfoScreen(viewport, this);
+    silenceLoopId = Assets.getSound("silence").loop();
 
     setScreen(mainScreen);
   }
@@ -53,6 +55,7 @@ public class TempoGdxGame extends Game implements MainScreen.MainScreenDelegate,
   @Override
   public void dispose() {
     batch.dispose();
+    Assets.getSound("silence").stop(silenceLoopId);
   }
 
   @Override

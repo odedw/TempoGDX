@@ -49,7 +49,7 @@ public class InfoScreen implements Screen {
     Table infoTable = new Table(skin);
     infoTable.center();
     infoTable.setBackground(skin.getDrawable("list"));
-    Label desc = new Label("TempoGDX is an open source metronome built with libGDX. The code is at", skin);
+    Label desc = new Label("TempoGDX is an open source metronome built with libGDX. The source code can be found at", skin);
     desc.setWrap(true);
     desc.setAlignment(Align.center);
     infoTable.add(desc).padTop(margin).expandX().fillX();

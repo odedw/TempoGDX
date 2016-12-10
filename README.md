@@ -1,6 +1,6 @@
 TempoGDX is an open source metronome app built with libGDX.
 
-![Imgur](http://i.imgur.com/v7h7KvB.png)
+![Imgur](http://i.imgur.com/gkC6irC.png)
 
 ## Background
 

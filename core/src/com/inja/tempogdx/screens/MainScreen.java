@@ -11,15 +11,16 @@ import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.inja.tempogdx.Constants;
+import com.inja.tempogdx.metronome.BeatEventListener;
 import com.inja.tempogdx.utilities.Assets;
 import com.inja.tempogdx.utilities.BpmNameConverter;
-import com.inja.tempogdx.utilities.Metronome;
+import com.inja.tempogdx.metronome.Metronome;
 import com.inja.tempogdx.utilities.SkinFactory;
 
 /**
  * Created by oded on 26/11/2016.
  */
-public class MainScreen implements Screen, EventListener {
+public class MainScreen implements Screen{
   private final Stage stage;
   private final Metronome metronome;
   private final Skin skin;
@@ -39,7 +40,6 @@ public class MainScreen implements Screen, EventListener {
   public MainScreen(Viewport viewport, MainScreenDelegate delegate) {
     this.delegate = delegate;
     metronome = new Metronome();
-    metronome.setListener(this);
 
     stage = new Stage(viewport);
     skin = SkinFactory.create();
@@ -136,6 +136,19 @@ public class MainScreen implements Screen, EventListener {
       }
     });
     stage.addActor(infoButton);
+
+    metronome.addListener(new BeatEventListener() {
+      @Override
+      public void onBeat(BeatEvent event) {
+        if (currentBeatIndicator >= 0 && currentBeatIndicator < beatIndicators.size)
+          beatIndicators.get(currentBeatIndicator).setDrawable(Assets.getDrawable("beatOff"));
+
+        currentBeatIndicator++;
+        if (currentBeatIndicator == beatIndicators.size) currentBeatIndicator = 0;
+        Assets.getSound(currentBeatIndicator == 0 ? "clickFirst" : "click").play();
+        beatIndicators.get(currentBeatIndicator).setDrawable(Assets.getDrawable("beatOn"));
+      }
+    });
   }
 
   private void toggleMetronome() {
@@ -208,19 +221,6 @@ public class MainScreen implements Screen, EventListener {
   @Override
   public void dispose() {
     stage.dispose();
-  }
-
-  @Override
-  public boolean handle(Event event) {
-    if (currentBeatIndicator >= 0 && currentBeatIndicator < beatIndicators.size)
-      beatIndicators.get(currentBeatIndicator).setDrawable(Assets.getDrawable("beatOff"));
-
-    currentBeatIndicator++;
-    if (currentBeatIndicator == beatIndicators.size) currentBeatIndicator = 0;
-    Assets.getSound(currentBeatIndicator == 0 ? "clickFirst" : "click").play();
-    beatIndicators.get(currentBeatIndicator).setDrawable(Assets.getDrawable("beatOn"));
-
-    return true;
   }
 
   private class MetronomeButtonGestureListener extends ActorGestureListener {

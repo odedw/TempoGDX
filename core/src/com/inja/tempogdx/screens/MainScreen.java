@@ -69,12 +69,10 @@ public class MainScreen implements Screen {
     Table bpmTable = new Table();
     bpmTable.background(skin.getDrawable("list"));
     bpmLabel = new Label(Integer.toString(metronome.getBpm()), skin, "big");
-    bpmTable.add(bpmLabel).height(20).padTop(margin);
-    bpmTable.row();
+    bpmTable.add(bpmLabel).height(20).padTop(margin).row();
     bpmNameLabel = new Label(BpmNameConverter.getName(metronome.getBpm()), skin, "small");
     bpmTable.add(bpmNameLabel).padTop(margin);
-    table.add(bpmTable).colspan(2).height(120).fillX().expandX();
-    table.row();
+    table.add(bpmTable).colspan(2).height(120).fillX().expandX().row();
 
     ImageButton tapButton = new ImageButton(skin, "tap");
     tapButton.addListener(new ActorGestureListener(){
@@ -84,8 +82,7 @@ public class MainScreen implements Screen {
         if (bpm != null) setBpm(bpm);
       }
     });
-    table.add(tapButton).colspan(2).height(buttonHeight).padTop(margin).fillX().expandX();
-    table.row();
+    table.add(tapButton).colspan(2).height(buttonHeight).padTop(margin).fillX().expandX().row();
 
     slider = new Slider(Constants.MIN_BPM, Constants.MAX_BPM, 1, false, skin);
     slider.setValue(metronome.getBpm());
@@ -96,16 +93,14 @@ public class MainScreen implements Screen {
         setBpm((int) slider.getValue());
       }
     });
-    table.add(slider).padTop(margin).colspan(2).fillX().expandX();
-    table.row();
+    table.add(slider).padTop(margin).colspan(2).fillX().expandX().row();
 
     final ImageButton slowerButton = new ImageButton(skin, "slower");
     slowerButton.addListener(new MetronomeButtonGestureListener(-Constants.BIG_INCREMENT, -1));
     table.add(slowerButton).height(buttonHeight).padTop(margin).padRight(10).width((table.getWidth() - 20) / 2);
     ImageButton fasterButton = new ImageButton(skin, "faster");
     fasterButton.addListener(new MetronomeButtonGestureListener(Constants.BIG_INCREMENT, 1));
-    table.add(fasterButton).height(buttonHeight).padTop(margin).padLeft(10).width((table.getWidth() - 20) / 2);
-    table.row();
+    table.add(fasterButton).height(buttonHeight).padTop(margin).padLeft(10).width((table.getWidth() - 20) / 2).row();
 
     startButton = new ImageButton(skin, "play");
     startButton.addListener(new ClickListener() {
@@ -114,8 +109,7 @@ public class MainScreen implements Screen {
         toggleMetronome();
       }
     });
-    table.add(startButton).height(buttonHeight).padTop(20).colspan(2).fillX().expandX();
-    table.row();
+    table.add(startButton).height(buttonHeight).padTop(20).colspan(2).fillX().expandX().row();
 
     Table indicatorTable = new Table();
     indicatorTable.background(skin.getDrawable("list"));
@@ -124,8 +118,7 @@ public class MainScreen implements Screen {
       beatIndicators.add(image);
       indicatorTable.add(image).pad(0, margin, 0, margin).width(20).height(20);
     }
-    table.add(indicatorTable).colspan(2).padTop(20).height(50).fillX().expandX();
-    table.row();
+    table.add(indicatorTable).colspan(2).padTop(20).height(50).fillX().expandX().row();
 
     infoButton = new ImageButton(skin, "info");
     infoButton.setWidth(40);

@@ -36,6 +36,7 @@ public class InfoScreen implements Screen {
     int margin = skin.get("margin", Integer.class);
     int uiWidth = skin.get("ui-width", Integer.class);
 
+    //Main Table
     table = new Table(skin);
     stage.addActor(table);
     table.center();
@@ -43,6 +44,7 @@ public class InfoScreen implements Screen {
     table.setHeight(stage.getHeight());
     table.setX(stage.getWidth() / 2 - table.getWidth() / 2);
 
+    //Info Table
     Table infoTable = new Table(skin);
     infoTable.center();
     infoTable.setBackground(skin.getDrawable("list"));
@@ -59,6 +61,7 @@ public class InfoScreen implements Screen {
     infoTable.add(new HyperlinkLabel("Google Fonts", skin, "https://fonts.google.com/specimen/Droid+Sans+Mono")).padTop(3).padBottom(margin).row();
     table.add(infoTable).fillX().expandX().row();
 
+    //Back Button
     TextButton backButton = new TextButton("Back", skin);
     backButton.addListener(new ClickListener(){
       @Override

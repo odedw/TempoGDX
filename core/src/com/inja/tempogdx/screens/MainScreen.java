@@ -26,7 +26,6 @@ import com.inja.tempogdx.utilities.SkinFactory;
 public class MainScreen implements Screen {
   private final Stage stage;
   private final Metronome metronome;
-  private final Skin skin;
   private final TapTempoCalculator tapTempoCalculator;
   private ImageButton startButton;
   private Slider slider;
@@ -46,16 +45,17 @@ public class MainScreen implements Screen {
     metronome = new Metronome();
     tapTempoCalculator = new TapTempoCalculator(Constants.NUMBER_OF_TAPS, Constants.MIN_BPM);
     stage = new Stage(viewport);
-    skin = SkinFactory.create();
 
     createLayout();
   }
 
   private void createLayout() {
+    Skin skin = SkinFactory.create();
     int buttonHeight = skin.get("button-height", Integer.class);
     margin = skin.get("margin", Integer.class);
     final int uiWidth = skin.get("ui-width", Integer.class);
 
+    //Main Table
     table = new Table(skin);
     stage.addActor(table);
     table.center();
@@ -63,6 +63,7 @@ public class MainScreen implements Screen {
     table.setHeight(stage.getHeight());
     table.setX(stage.getWidth() / 2 - table.getWidth() / 2);
 
+    //BPM Table
     Table bpmTable = new Table();
     bpmTable.background(skin.getDrawable("list"));
     bpmLabel = new Label(Integer.toString(metronome.getBpm()), skin, "big");
@@ -71,6 +72,7 @@ public class MainScreen implements Screen {
     bpmTable.add(bpmNameLabel).padTop(margin);
     table.add(bpmTable).colspan(2).height(120).fillX().expandX().row();
 
+    //Tap Tempo Button
     ImageButton tapButton = new ImageButton(skin, "tap");
     tapButton.addListener(new ActorGestureListener(){
       @Override
@@ -81,6 +83,7 @@ public class MainScreen implements Screen {
     });
     table.add(tapButton).colspan(2).height(buttonHeight).padTop(margin).fillX().expandX().row();
 
+    //Tempo Slider
     slider = new Slider(Constants.MIN_BPM, Constants.MAX_BPM, 1, false, skin);
     slider.setValue(metronome.getBpm());
     slider.setWidth(stage.getWidth() - 20);
@@ -92,6 +95,7 @@ public class MainScreen implements Screen {
     });
     table.add(slider).padTop(margin).colspan(2).fillX().expandX().row();
 
+    //Increase/Decrease Buttons
     final ImageButton slowerButton = new ImageButton(skin, "slower");
     slowerButton.addListener(new MetronomeButtonGestureListener(-Constants.BIG_INCREMENT, -1));
     table.add(slowerButton).height(buttonHeight).padTop(margin).padRight(10).width((table.getWidth() - 20) / 2);
@@ -99,6 +103,7 @@ public class MainScreen implements Screen {
     fasterButton.addListener(new MetronomeButtonGestureListener(Constants.BIG_INCREMENT, 1));
     table.add(fasterButton).height(buttonHeight).padTop(margin).padLeft(10).width((table.getWidth() - 20) / 2).row();
 
+    //Start/Stop Button
     startButton = new ImageButton(skin, "play");
     startButton.addListener(new ClickListener() {
       @Override
@@ -108,6 +113,7 @@ public class MainScreen implements Screen {
     });
     table.add(startButton).height(buttonHeight).padTop(20).colspan(2).fillX().expandX().row();
 
+    //Beat Indicator
     Table indicatorTable = new Table();
     indicatorTable.background(skin.getDrawable("list"));
     for (int i = 0; i < 4; i++) {
@@ -117,6 +123,7 @@ public class MainScreen implements Screen {
     }
     table.add(indicatorTable).colspan(2).padTop(20).height(50).fillX().expandX().row();
 
+    //Info Button
     infoButton = new ImageButton(skin, "info");
     infoButton.setWidth(40);
     infoButton.setHeight(40);
@@ -141,6 +148,7 @@ public class MainScreen implements Screen {
     });
     stage.addActor(infoButton);
 
+    //Metronome Beat Event
     metronome.addListener(new BeatEventListener() {
       @Override
       public void onBeat(BeatEvent event) {
@@ -225,6 +233,7 @@ public class MainScreen implements Screen {
   @Override
   public void dispose() {
     stage.dispose();
+    metronome.stop();
   }
 
   private class MetronomeButtonGestureListener extends ActorGestureListener {

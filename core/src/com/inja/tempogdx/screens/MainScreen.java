@@ -4,26 +4,33 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.inja.tempogdx.Constants;
 import com.inja.tempogdx.metronome.BeatEventListener;
+import com.inja.tempogdx.metronome.Metronome;
+import com.inja.tempogdx.metronome.TapTempoCalculator;
 import com.inja.tempogdx.utilities.Assets;
 import com.inja.tempogdx.utilities.BpmNameConverter;
-import com.inja.tempogdx.metronome.Metronome;
 import com.inja.tempogdx.utilities.SkinFactory;
 
 /**
  * Created by oded on 26/11/2016.
  */
-public class MainScreen implements Screen{
+public class MainScreen implements Screen {
   private final Stage stage;
   private final Metronome metronome;
   private final Skin skin;
+  private final TapTempoCalculator tapTempoCalculator;
   private ImageButton startButton;
   private Slider slider;
   private Label bpmLabel;
@@ -40,7 +47,7 @@ public class MainScreen implements Screen{
   public MainScreen(Viewport viewport, MainScreenDelegate delegate) {
     this.delegate = delegate;
     metronome = new Metronome();
-
+    tapTempoCalculator = new TapTempoCalculator(Constants.NUMBER_OF_TAPS, Constants.MIN_BPM);
     stage = new Stage(viewport);
     skin = SkinFactory.create();
 
@@ -70,6 +77,13 @@ public class MainScreen implements Screen{
     table.row();
 
     ImageButton tapButton = new ImageButton(skin, "tap");
+    tapButton.addListener(new ActorGestureListener(){
+      @Override
+      public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+        Integer bpm = tapTempoCalculator.tap();
+        if (bpm != null) setBpm(bpm);
+      }
+    });
     table.add(tapButton).colspan(2).height(buttonHeight).padTop(margin).fillX().expandX();
     table.row();
 
@@ -87,10 +101,10 @@ public class MainScreen implements Screen{
 
     final ImageButton slowerButton = new ImageButton(skin, "slower");
     slowerButton.addListener(new MetronomeButtonGestureListener(-Constants.BIG_INCREMENT, -1));
-    table.add(slowerButton).height(buttonHeight).padTop(margin).padRight(10).width((table.getWidth() - 20)/ 2);
+    table.add(slowerButton).height(buttonHeight).padTop(margin).padRight(10).width((table.getWidth() - 20) / 2);
     ImageButton fasterButton = new ImageButton(skin, "faster");
     fasterButton.addListener(new MetronomeButtonGestureListener(Constants.BIG_INCREMENT, 1));
-    table.add(fasterButton).height(buttonHeight).padTop(margin).padLeft(10).width((table.getWidth() - 20)/ 2);
+    table.add(fasterButton).height(buttonHeight).padTop(margin).padLeft(10).width((table.getWidth() - 20) / 2);
     table.row();
 
     startButton = new ImageButton(skin, "play");
@@ -233,18 +247,19 @@ public class MainScreen implements Screen{
       this.smallIncrement = smallIncrement;
     }
 
-    public boolean longPress (Actor actor, float x, float y) {
+    public boolean longPress(Actor actor, float x, float y) {
       Gdx.input.vibrate(10);
       setBpm(metronome.getBpm() + bigIncrement);
 
       return true;
     }
-    public void tap (InputEvent event, float x, float y, int count, int button) {
+
+    public void tap(InputEvent event, float x, float y, int count, int button) {
       setBpm(metronome.getBpm() + smallIncrement);
     }
   }
 
-  public interface MainScreenDelegate{
+  public interface MainScreenDelegate {
     void infoClicked();
   }
 }

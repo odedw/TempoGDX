@@ -60,7 +60,9 @@ public class InfoScreen implements Screen {
     infoTable.add(new Label("The font Droid Sans Mono from", skin)).padTop(margin*2).row();
     infoTable.add(new HyperlinkLabel("Google Fonts", skin, "https://fonts.google.com/specimen/Droid+Sans+Mono")).padTop(3).row();
     infoTable.add(new Label("Background image from", skin)).padTop(margin*2).row();
-    infoTable.add(new HyperlinkLabel("Subtle Patterns", skin, "https://subtlepatterns.com")).padTop(3).padBottom(margin).row();
+    infoTable.add(new HyperlinkLabel("Subtle Patterns", skin, "https://subtlepatterns.com")).padTop(3).row();
+    infoTable.add(new Label("Metronome by Sergey Demushkin from ", skin)).padTop(margin*2).row();
+    infoTable.add(new HyperlinkLabel("The Noun Project", skin, "https://thenounproject.com/search/?q=metronome&i=399269")).padTop(3).padBottom(margin).row();
     table.add(infoTable).fillX().expandX().row();
 
     //Back Button

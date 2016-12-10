@@ -1,8 +1,5 @@
 package com.inja.tempogdx;
 
-/**
- * Created by oded on 26/11/2016.
- */
 public class Constants {
   public static final float VIEWPORT_WIDTH = 360;
   public static final float VIEWPORT_HEIGHT = 640;

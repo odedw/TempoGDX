@@ -5,9 +5,6 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.Pools;
 import com.badlogic.gdx.utils.TimeUtils;
 
-/**
- * Created by oded on 26/11/2016.
- */
 public class Metronome {
   private int bpm;
   private long nanoPerBeat;

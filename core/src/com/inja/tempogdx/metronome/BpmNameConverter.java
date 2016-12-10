@@ -1,8 +1,5 @@
 package com.inja.tempogdx.metronome;
 
-/**
- * Created by oded on 30/11/2016.
- */
 public class BpmNameConverter {
   public static String getName(int bpm) {
     if (bpm <= 40)

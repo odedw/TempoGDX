@@ -6,9 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-/**
- * Created by oded on 09/12/2016.
- */
 public class HyperlinkLabel extends Label{
   public HyperlinkLabel(CharSequence text, Skin skin, final String url) {
     super(text, skin, "link");

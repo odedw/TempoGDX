@@ -23,9 +23,6 @@ import com.inja.tempogdx.utilities.Assets;
 import com.inja.tempogdx.metronome.BpmNameConverter;
 import com.inja.tempogdx.utilities.SkinFactory;
 
-/**
- * Created by oded on 26/11/2016.
- */
 public class MainScreen implements Screen {
   private final Stage stage;
   private final Metronome metronome;

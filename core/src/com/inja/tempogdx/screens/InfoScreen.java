@@ -17,9 +17,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.inja.tempogdx.utilities.HyperlinkLabel;
 import com.inja.tempogdx.utilities.SkinFactory;
 
-/**
- * Created by oded on 05/12/2016.
- */
 public class InfoScreen implements Screen {
   private Skin skin;
   private Stage stage;

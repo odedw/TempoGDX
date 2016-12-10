@@ -1,14 +1,10 @@
 package com.inja.tempogdx.metronome;
 
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
 
-/**
- * Created by oded on 10/12/2016.
- */
 public class TapTempoCalculator {
   private final float clearInterval;
   private ArrayList<Long> tapTimes = new ArrayList<>();

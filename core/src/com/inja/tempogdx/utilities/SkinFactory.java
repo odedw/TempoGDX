@@ -7,9 +7,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
-/**
- * Created by oded on 26/11/2016.
- */
 public class SkinFactory {
   private static Skin skin;
   public static Skin create() {

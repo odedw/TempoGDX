@@ -47,9 +47,6 @@ public class Assets {
   public static Sound getSound(String name) {
     return manager.get("sounds/" + name + ".ogg", Sound.class);
   }
-  public static <T> T get(String name, Class<T> clazz){
-    return manager.get(name, clazz);
-  }
 
   public static void finishLoading() {
     manager.finishLoading();

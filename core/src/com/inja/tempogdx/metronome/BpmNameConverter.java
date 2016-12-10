@@ -1,4 +1,4 @@
-package com.inja.tempogdx.utilities;
+package com.inja.tempogdx.metronome;
 
 /**
  * Created by oded on 30/11/2016.

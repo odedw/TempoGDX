@@ -20,7 +20,7 @@ import com.inja.tempogdx.metronome.BeatEventListener;
 import com.inja.tempogdx.metronome.Metronome;
 import com.inja.tempogdx.metronome.TapTempoCalculator;
 import com.inja.tempogdx.utilities.Assets;
-import com.inja.tempogdx.utilities.BpmNameConverter;
+import com.inja.tempogdx.metronome.BpmNameConverter;
 import com.inja.tempogdx.utilities.SkinFactory;
 
 /**

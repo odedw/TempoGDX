@@ -114,8 +114,8 @@ public class MainScreen implements Screen{
     table.row();
 
     infoButton = new ImageButton(skin, "info");
-    infoButton.setWidth(20);
-    infoButton.setHeight(20);
+    infoButton.setWidth(40);
+    infoButton.setHeight(40);
     infoButton.setX(stage.getWidth() - margin - infoButton.getWidth());
     infoButton.setY(stage.getHeight() - margin - infoButton.getHeight());
     infoButton.addListener(new ClickListener() {

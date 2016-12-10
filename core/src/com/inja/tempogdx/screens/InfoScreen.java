@@ -52,19 +52,15 @@ public class InfoScreen implements Screen {
     Label desc = new Label("TempoGDX is an open source metronome built with libGDX. The source code can be found at", skin);
     desc.setWrap(true);
     desc.setAlignment(Align.center);
-    infoTable.add(desc).padTop(margin).expandX().fillX();
-    infoTable.row();
+    infoTable.add(desc).padTop(margin).expandX().fillX().row();
     HyperlinkLabel repo = new HyperlinkLabel("https://github.com/odedw/TempoGDX", skin, "https://github.com/odedw/TempoGDX");
     repo.setAlignment(Align.center);
-    infoTable.add(repo).fillX().expandX().padTop(3).padLeft(margin).padRight(margin);
-    infoTable.row();
-    Label skinCredit = new Label("Shade UI Skin by ", skin);
-    infoTable.add(skinCredit).padTop(margin*2);
-    infoTable.row();
-    HyperlinkLabel skinUrl = new HyperlinkLabel("Raymond \"Raeleus\" Buckley", skin, "https://github.com/czyzby/gdx-skins/tree/master/shade");
-    infoTable.add(skinUrl).padTop(3).padBottom(margin);
-    table.add(infoTable).fillX().expandX();
-    table.row();
+    infoTable.add(repo).fillX().expandX().padTop(3).padLeft(margin).padRight(margin).row();
+    infoTable.add(new Label("Shade UI Skin by ", skin)).padTop(margin*2).row();
+    infoTable.add(new HyperlinkLabel("Raymond \"Raeleus\" Buckley", skin, "https://github.com/czyzby/gdx-skins/tree/master/shade")).padTop(3).row();
+    infoTable.add(new Label("The font Droid Sans Mono from", skin)).padTop(margin*2).row();
+    infoTable.add(new HyperlinkLabel("Google Fonts", skin, "https://fonts.google.com/specimen/Droid+Sans+Mono")).padTop(3).padBottom(margin).row();
+    table.add(infoTable).fillX().expandX().row();
 
     TextButton backButton = new TextButton("Back", skin);
     backButton.addListener(new ClickListener(){

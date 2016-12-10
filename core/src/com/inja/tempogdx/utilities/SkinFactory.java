@@ -15,8 +15,8 @@ public class SkinFactory {
   public static Skin create() {
     if (skin == null) {
 
-      skin = new Skin(Gdx.files.internal("uiskin.json"));
-      FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("DroidSansMono.ttf"));
+      skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+      FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/DroidSansMono.ttf"));
       FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
       parameter.minFilter = Texture.TextureFilter.Linear;
       parameter.magFilter = Texture.TextureFilter.Linear;
